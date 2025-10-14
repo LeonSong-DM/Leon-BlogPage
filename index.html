@@ -1,175 +1,542 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>超好看的照片墙</title>
-  <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
-  <style>
-    #img {
-      width: 503px;
-      height: 252px;
-      margin: 50px auto;
-      perspective: 700px;
-      -webkit-perspective: 700px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: 'momo';
+            src: url('fonts/Ubuntu-B.ttf') format('truetype');
+        }
 
-    #img img {
-      width: 50px;
-      height: 50px;
-      float: left;
-    }
+        .input {
+            font-family: 'momo';
+        }
+        
 
-    #btn {
-      width: 100px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      font-size: 16px;
-      color: #000;
-      background: #0fc;
-      border-radius: 5px;
-      margin: 0 auto;
-      padding: 5px 5px;
-      cursor: pointer;
-    }
-  </style>
+        * {
+            color: #000;
+            text-decoration: none;
+        }
+
+        body {
+            background-color: #D5D0C3;
+            font-family: 'momo';
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .divider {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #000;
+        }
+
+        .topbar {
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .topbar .name {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .social-container {
+            display: flex;
+            justify-content: center;
+            margin-top: auto;
+            padding: 20px 0;
+        }
+
+        /* From Uiverse.io by ahmed150up2 */
+        .card {
+            display: flex;
+            height: 70px;
+            width: 270px;
+        }
+
+        .card svg {
+            position: absolute;
+            display: flex;
+            width: 60%;
+            height: 100%;
+            font-size: 24px;
+            font-weight: 700;
+            opacity: 1;
+            transition: opacity 0.25s;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .card .social-link1,
+        .card .social-link2,
+        .card .social-link3,
+        .card .social-link4 {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 25%;
+            color: whitesmoke;
+            font-size: 24px;
+            text-decoration: none;
+            transition: 0.25s;
+            border-radius: 50px;
+        }
+
+        .card svg {
+            transform: scale(1);
+        }
+
+        .card .social-link1:hover {
+            background-color: #fff;
+            animation: bounce_613 0.4s linear;
+        }
+
+        .card .social-link2:hover {
+            background-color: #0a66c2;
+            animation: bounce_613 0.4s linear;
+        }
+
+        .card .social-link3:hover {
+            background-color: #0059f7;
+            animation: bounce_613 0.4s linear;
+        }
+
+        .card .social-link4:hover {
+            background-color: rgb(150, 66, 80);
+            animation: bounce_613 0.4s linear;
+        }
+
+        @keyframes bounce_613 {
+            40% {
+                transform: scale(1.4);
+            }
+
+            60% {
+                transform: scale(0.8);
+            }
+
+            80% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 新增的玻璃效果组件样式 */
+        .container {
+            position: absolute;
+            top: 195px;
+            /* 55px (topbar height) + 140px */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            margin-top: 80px;
+        }
+
+        .glass-box {
+            color: white;
+            position: relative;
+            font-family: sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-box:hover {
+            transform: translateY(-10px);
+        }
+
+        .glass-box::before,
+        .glass-box::after {
+            content: "";
+            background-color: #fab5704c;
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+
+        .glass-box:hover::before {
+            transform: scale(1.2);
+        }
+
+        .glass-box:hover::after {
+            transform: rotate(90deg);
+        }
+
+        .glass-box::before {
+            border-radius: 50%;
+            width: 6rem;
+            height: 6rem;
+            top: 30%;
+            right: 7%;
+        }
+
+        .glass-box::after {
+            content: "";
+            position: absolute;
+            height: 3rem;
+            top: 8%;
+            right: 5%;
+            border: 1px solid;
+        }
+
+        .glass-box .box {
+            width: 11.875em;
+            height: 15.875em;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.074);
+            border: 1px solid rgba(255, 255, 255, 0.222);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-radius: 0.7rem;
+            transition: all ease 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .glass-box .box .title {
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        .glass-box:hover .box .title {
+            letter-spacing: 0.15em;
+            transform: scale(1.05);
+        }
+
+        .glass-box .box div strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .glass-box .box div p {
+            margin: 0;
+            font-size: 0.9em;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        .glass-box:hover .box div p {
+            letter-spacing: 0.15em;
+        }
+
+        .glass-box .box div span {
+            font-size: 0.7rem;
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+
+        .glass-box:hover .box div span {
+            transform: translateX(5px);
+        }
+
+        .glass-box .box div span:nth-child(3) {
+            font-weight: 500;
+            margin-right: 0.2rem;
+        }
+
+        .glass-box .box:hover {
+            box-shadow: 0px 0px 20px 1px #ffbb763f;
+            border: 1px solid rgba(255, 255, 255, 0.454);
+            transform: scale(1.05);
+        }
+
+
+        .input-wrapper {
+            width: 500px;
+            /* 修改：固定总宽度 */
+            height: 45px;
+            border-radius: 20px;
+            padding: 5px;
+            box-sizing: border-box;
+            /* 推荐改为 border-box，避免宽度计算问题 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #292524;
+            /* 移除 box-sizing: content-box; 避免布局错乱 */
+            margin-top: 60px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .icon {
+            width: 30px;
+            fill: rgb(255, 255, 255);
+            margin-left: 8px;
+            transition: all 0.3s;
+        }
+
+        .input {
+            flex: 1;
+            /* 关键：自动填充剩余空间 */
+            height: 100%;
+            border: none;
+            outline: none;
+            padding-left: 15px;
+            background-color: #292524;
+            color: white;
+            font-size: 1em;
+            font-family: 'momo';
+            /* 移除 max-width，让 flex 控制宽度 */
+        }
+
+        .input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px #292524 inset;
+            -webkit-text-fill-color: #ffffff;
+        }
+
+        .Subscribe-btn {
+            height: 100%;
+            width: 95px;
+            /* 保持不变 */
+            border: none;
+            border-radius: 15px;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            background-color: #ffffff;
+            font-weight: 500;
+            font-family: 'momo';
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s;
+
+        }
+
+        .arrow {
+            position: absolute;
+            margin-right: 150px;
+            transition: all 0.3s;
+        }
+
+        .input-wrapper:active .icon {
+            transform: scale(1.3);
+        }
+
+        .Subscribe-btn:hover {
+            color: white;
+        }
+
+        .Subscribe-btn:hover .arrow {
+            margin-right: 0;
+            animation: jello-vertical 0.9s both;
+            transform-origin: right;
+        }
+
+        @keyframes jello-vertical {
+            0% {
+                transform: scale3d(1, 1, 1);
+            }
+
+            30% {
+                transform: scale3d(0.75, 1.25, 1);
+            }
+
+            40% {
+                transform: scale3d(1.25, 0.75, 1);
+            }
+
+            50% {
+                transform: scale3d(0.85, 1.15, 1);
+            }
+
+            65% {
+                transform: scale3d(1.05, 0.95, 1);
+            }
+
+            75% {
+                transform: scale3d(0.95, 1.05, 1);
+            }
+
+            100% {
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+        .Subscribe-btn:active {
+            transform: scale(0.9);
+        }
+    </style>
 </head>
 
 <body>
-  <div id="img">
-    <img src="http://www.jq22.com/img/cs/500x500-1.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-2.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-4.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-5.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-6.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-7.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-8.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-9.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-1.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-2.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-4.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-5.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-6.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-7.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-8.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-9.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-1.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-2.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-4.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-5.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-6.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-7.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-8.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-9.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-1.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-2.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-4.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-5.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-6.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-7.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-8.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-9.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-1.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-2.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-4.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-5.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-6.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-7.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-8.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-9.png" alt="">
-    <img src="http://www.jq22.com/img/cs/500x500-3.png" alt="">
-  </div>
-  <div id="btn">点击查看效果</div>
+    <div class="topbar">
+        <span class="name"><a href="pages/flyingman.html">LeonSong</a></span>
 
-  <script>
-    /*
-      1.闪的效果（瞬间高度宽度变为0，scale,随机）
-      2.图片由小变大，同时透明度由1-0
-      3.图片旋转，同时透明度由0-1
-    */
-    window.onload = function () {
-      var btn = document.getElementById('btn');
-      var imgs = document.getElementsByTagName("img");
-      var on = true;
+    </div>
 
-      btn.onclick = function () {
-        if (!on) {
-          return;
+    <div class="divider"></div>
+
+    <div class="input-wrapper">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g data-name="Layer 2">
+                <g data-name="inbox">
+                    <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"></rect>
+                    <path
+                        d="M20.79 11.34l-3.34-6.68A3 3 0 0 0 14.76 3H9.24a3 3 0 0 0-2.69 1.66l-3.34 6.68a2 2 0 0 0-.21.9V18a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-5.76a2 2 0 0 0-.21-.9zM8.34 5.55a1 1 0 0 1 .9-.55h5.52a1 1 0 0 1 .9.55L18.38 11H16a1 1 0 0 0-1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2a1 1 0 0 0-1-1H5.62z">
+                    </path>
+                </g>
+            </g>
+        </svg>
+        <input type="text" name="text" class="input" placeholder="Type something you want to search" id="searchInput"/>
+        <button class="Subscribe-btn" id="searchButton">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="10" viewBox="0 0 38 15" class="arrow">
+                <path
+                    d="M10 7.519l-.939-.344h0l.939.344zm14.386-1.205l-.981-.192.981.192zm1.276 5.509l.537.843.148-.094.107-.139-.792-.611zm4.819-4.304l-.385-.923h0l.385.923zm7.227.707a1 1 0 0 0 0-1.414L31.343.448a1 1 0 0 0-1.414 0 1 1 0 0 0 0 1.414l5.657 5.657-5.657 5.657a1 1 0 0 0 1.414 1.414l6.364-6.364zM1 7.519l.554.833.029-.019.094-.061.361-.23 1.277-.77c1.054-.609 2.397-1.32 3.629-1.787.617-.234 1.17-.392 1.623-.455.477-.066.707-.008.788.034.025.013.031.021.039.034a.56.56 0 0 1 .058.235c.029.327-.047.906-.39 1.842l1.878.689c.383-1.044.571-1.949.505-2.705-.072-.815-.45-1.493-1.16-1.865-.627-.329-1.358-.332-1.993-.244-.659.092-1.367.305-2.056.566-1.381.523-2.833 1.297-3.921 1.925l-1.341.808-.385.245-.104.068-.028.018c-.011.007-.011.007.543.84zm8.061-.344c-.198.54-.328 1.038-.36 1.484-.032.441.024.94.325 1.364.319.45.786.64 1.21.697.403.054.824-.001 1.21-.09.775-.179 1.694-.566 2.633-1.014l3.023-1.554c2.115-1.122 4.107-2.168 5.476-2.524.329-.086.573-.117.742-.115s.195.038.161.014c-.15-.105.085-.139-.076.685l1.963.384c.192-.98.152-2.083-.74-2.707-.405-.283-.868-.37-1.28-.376s-.849.069-1.274.179c-1.65.43-3.888 1.621-5.909 2.693l-2.948 1.517c-.92.439-1.673.743-2.221.87-.276.064-.429.065-.492.057-.043-.006.066.003.155.127.07.099.024.131.038-.063.014-.187.078-.49.243-.94l-1.878-.689zm14.343-1.053c-.361 1.844-.474 3.185-.413 4.161.059.95.294 1.72.811 2.215.567.544 1.242.546 1.664.459a2.34 2.34 0 0 0 .502-.167l.15-.076.049-.028.018-.011c.013-.008.013-.008-.524-.852l-.536-.844.019-.012c-.038.018-.064.027-.084.032-.037.008.053-.013.125.056.021.02-.151-.135-.198-.895-.046-.734.034-1.887.38-3.652l-1.963-.384zm2.257 5.701l.791.611.024-.031.08-.101.311-.377 1.093-1.213c.922-.954 2.005-1.894 2.904-2.27l-.771-1.846c-1.31.547-2.637 1.758-3.572 2.725l-1.184 1.314-.341.414-.093.117-.025.032c-.01.013-.01.013.781.624zm5.204-3.381c.989-.413 1.791-.42 2.697-.307.871.108 2.083.385 3.437.385v-2c-1.197 0-2.041-.226-3.19-.369-1.114-.139-2.297-.146-3.715.447l.771 1.846z">
+                </path>
+            </svg>
+            Submit
+        </button>
+    </div>
+
+
+
+    <!-- 添加6个玻璃效果组件 -->
+    <div class="container">
+        <div class="glass-box">
+            <div class="box">
+                <span class="title">GLASS EFFECT</span>
+                <div>
+                    <strong>JOE WATSON SBF</strong>
+                    <p>0000 000 000 0000</p>
+                    <span>VALID</span> <span>01/28</span>
+                </div>
+            </div>
+        </div>
+        <div class="glass-box">
+            <div class="box">
+                <span class="title">GLASS EFFECT</span>
+                <div>
+                    <strong>JOE WATSON SBF</strong>
+                    <p>0000 000 000 0000</p>
+                    <span>VALID</span> <span>01/28</span>
+                </div>
+            </div>
+        </div>
+        <div class="glass-box">
+            <div class="box">
+                <span class="title">GLASS EFFECT</span>
+                <div>
+                    <strong>JOE WATSON SBF</strong>
+                    <p>0000 000 000 0000</p>
+                    <span>VALID</span> <span>01/28</span>
+                </div>
+            </div>
+        </div>
+        <div class="glass-box">
+            <div class="box">
+                <span class="title">GLASS EFFECT</span>
+                <div>
+                    <strong>JOE WATSON SBF</strong>
+                    <p>0000 000 000 0000</p>
+                    <span>VALID</span> <span>01/28</span>
+                </div>
+            </div>
+        </div>
+        <div class="glass-box">
+            <div class="box">
+                <span class="title">GLASS EFFECT</span>
+                <div>
+                    <strong>JOE WATSON SBF</strong>
+                    <p>0000 000 000 0000</p>
+                    <span>VALID</span> <span>01/28</span>
+                </div>
+            </div>
+        </div>
+        <div class="glass-box">
+            <div class="box">
+                <span class="title">GLASS EFFECT</span>
+                <div>
+                    <strong>JOE WATSON SBF</strong>
+                    <p>0000 000 000 0000</p>
+                    <span>VALID</span> <span>01/28</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="social-container">
+        <div class="card">
+            <a class="social-link1" href="https://github.com/LeonSong-DM">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#393A43" height="1em" viewBox="0 0 496 512">
+                    <path
+                        d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z">
+                    </path>
+                </svg>
+            </a>
+            <a class="social-link2">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" fill="#393A43">
+                    <path
+                        d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z">
+                    </path>
+                </svg>
+            </a>
+            <a class="social-link3">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="#393A43">
+                    <path
+                        d="M232 237.2c31.8-15.2 48.4-38.2 48.4-74 0-70.6-52.6-87.8-113.3-87.8H0v354.4h171.8c64.4 0 124.9-30.9 124.9-102.9 0-44.5-21.1-77.4-64.7-89.7zM77.9 135.9H151c28.1 0 53.4 7.9 53.4 40.5 0 30.1-19.7 42.2-47.5 42.2h-79v-82.7zm83.3 233.7H77.9V272h84.9c34.3 0 56 14.3 56 50.6 0 35.8-25.9 47-57.6 47zm358.5-240.7H376V94h143.7v34.9zM576 305.2c0-75.9-44.4-139.2-124.9-139.2-78.2 0-131.3 58.8-131.3 135.8 0 79.9 50.3 134.7 131.3 134.7 61.3 0 101-27.6 120.1-86.3H509c-6.7 21.9-34.3 33.5-55.7 33.5-41.3 0-63-24.2-63-65.3h185.1c.3-4.2.6-8.7.6-13.2zM390.4 274c2.3-33.7 24.7-54.8 58.5-54.8 35.4 0 53.2 20.8 56.2 54.8H390.4z">
+                    </path>
+                </svg>
+            </a>
+            <a class="social-link4" href="pages/cube.html">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" fill="#393A43">
+                    <path
+                        d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z">
+                    </path>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <script>
+        // 获取输入框和按钮元素
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        
+        // 执行搜索的函数
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                // 调用Google搜索
+                window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+            } else {
+                alert('请输入搜索内容');
+            }
         }
-        on = false;
-        var endNum = 0; //运动完成的图片数量
-        for (var i = 0; i < imgs.length; i++) {
-          (function (i) {
-            setTimeout(function () {
-              montion(imgs[i], '1s', function () {
-                this.style.transform = 'scale(0)';
-              }, function () {
-                montion(this, "1s", function () {
-                  this.style.transform = 'scale(1)';
-                  this.style.opacity = '0';
-                }, function () {
-                  endNum++;
-                  if (endNum == imgs.length) {
-                    toBig();
-                  }
-                })
-              })
-            }, Math.random() * 1000);
-          })(i)
-        }
-      };
-
-      //第三个效果
-      function toBig() {
-        /*
-          坐标轴（X，Y,z）
-        */
-        var allEnd = 0;
-        for (var i = 0; i < imgs.length; i++) {
-          imgs[i].style.transition = "";
-          imgs[i].style.transform = 'rotateY(0deg) translateZ(-' + Math.random() * 500 + 'px)';
-          (function (i) {
-            setTimeout(function () {
-              montion(imgs[i], '2s', function () {
-                this.style.opacity = 1;
-                this.style.transform = 'rotateY(-360deg) translateZ(0)';
-              }, function () {
-                allEnd++;
-                if (allEnd == imgs.length) {
-                  on = true;
-                }
-              });
-            }, Math.random() * 1000);
-          })(i)
-        }
-      }
-
-      //运动函数（运动的对象，时间，属性函数，回调）
-      function montion(obj, time, doFn, callBack) {
-        obj.style.transition = time;
-        doFn.call(obj); //调用函数，并把this的指向给obj
-        var called = false
-        obj.addEventListener('transitionend', function () {
-          if (!called) {
-            callBack && callBack.call(obj);
-            called = true;
-          }
-        }, false);
-      }
-    }
-  </script>
-   
+        
+        // 为按钮添加点击事件监听器
+        searchButton.addEventListener('click', performSearch);
+        
+        // 为输入框添加回车键事件监听器
+        searchInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
 </body>
 
 </html>
