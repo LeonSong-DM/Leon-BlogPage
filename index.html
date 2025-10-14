@@ -620,8 +620,22 @@
         function performSearch() {
             const query = searchInput.value.trim();
             if (query) {
-                // 调用Google搜索
-                window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                // 检查输入是否为有效的URL
+                let url;
+                try {
+                    // 如果输入已经包含协议，则直接当作URL处理
+                    if (query.startsWith('http://') || query.startsWith('https://')) {
+                        url = new URL(query);
+                    } else {
+                        // 尝试添加https协议
+                        url = new URL('https://' + query);
+                    }
+                    // 如果能成功创建URL对象，则直接跳转
+                    window.location.href = url.toString();
+                } catch (e) {
+                    // 如果无法创建URL对象，则当作搜索关键词处理
+                    window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                }
             } else {
                 alert('请输入搜索内容');
             }
